@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <title>Card</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <div class="back-card">
+        <div class="cvc-value">
+          000
+        </div>
+      </div>
+      <div class="front-card">
+        <div class="flex">
+          <div class="filled-circle"></div>
+          <div class="not-so-filled-circle"></div>
+        </div>
+        <div class="card-number">
+          0000 0000 0000 0000
+        </div>
+        <div class="flex bottom-card">
+        <div class="cardholder">
+          Your name
+        </div>
+        <div class="month-year">
+          <span class="month-val">00</span> /
+          <span class="year-val">00</span>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <form class="form" method="POST">
+        <label for="name">CARDHOLDER NAME</label>
+        <input type="text" class="input" id="name" >
+        <div id="error-name" class="error"></div>
+        <label for="card">CARD NUMBER</label>
+        <input type="text" class="input" id="card" >
+        <div id="error-card" class="error"></div>
+        <div class="flex">
+          <div class="row-md-6">
+            <label for="month">EXP. DATE(MM/ YY)</label>
+            <input type="number" class="input-2" id="month" placeholder="MM" >
+            <input type="number" class="input-2" id="year" placeholder="YY" >
+            <div id="error-month" class="error"></div>
+          </div>
+          <div class="row-md-6">
+            <label for="cvc">CVC</label>
+            <input type="number" class="input-2" id="cvc" placeholder="e.g. 123" >
+            <div id="error-cvc" class="error"></div>
+          </div>
+        </div>
+        <input type="submit" value="Confirm">
+      </form>
+    </div>
+  </div>
+</body>
+<script>
+  
+  document.querySelector(".form").onsubmit = (e) => {
+    e.preventDefault();
+    let name = document.querySelector("#name").value
+    let card = document.querySelector("#card").value;
+    let mm = document.querySelector("#month").value;
+    let yy = document.querySelector("#year").value;
+    let cvc = document.querySelector("#cvc").value;
+    let flag = true;
+    if(name == ""){
+      document.querySelector("#error-name").textContent="Can't be blank";
+      document.querySelector("#name").style.border="1px solid hsl(0, 100%, 66%)"
+      flag = false;
+    }
+    if(card == ""){
+      document.querySelector("#error-card").textContent="Can't be blank";
+      document.querySelector("#card").style.border="1px solid hsl(0, 100%, 66%)"
+      flag = false;
+    }
+    else if(isNaN(parseInt(card))){
+      flag = false;
+      document.querySelector("#card").style.border="1px solid hsl(0, 100%, 66%)"
+      document.querySelector("#error-card").textContent="Wrong format, numbers only";
+    }
+    if(mm == "" || yy==""){
+      flag = false;
+      document.querySelector("#month").style.border="1px solid hsl(0, 100%, 66%)";
+      document.querySelector("#year").style.border="1px solid hsl(0, 100%, 66%)";
+      document.querySelector("#error-month").textContent="Can't be blank";
+    }
+    if(cvc == ""){
+      flag = false;
+      document.querySelector("#cvc").style.border="1px solid hsl(0, 100%, 66%)"
+      document.querySelector("#error-cvc").textContent="Can't be blank";
+    }
+    if(flag){
+      e.target.submit();
+    }
+  }
+
+  document.querySelectorAll("input").forEach((e)=>{
+    e.onkeyup = ()=>{
+      if(e.id == "year"){
+        document.querySelector("#month").style.border = "1px solid #d4d4d4";
+        document.querySelector("#year").style.border = "1px solid #d4d4d4";
+        document.querySelector("#error-month").textContent= "";
+      }
+      else{
+        e.style.border = "1px solid #d4d4d4";
+        document.querySelector(`#error-${e.id}`).textContent = "";
+      }
+    }
+  })
+  document.querySelector("#card").oninput = (e)=>{
+    let val = e.target.value;
+    if(val == ""){
+      document.querySelector(".card-number").textContent = "0000 0000 0000 0000"
+    }
+  else{
+    document.querySelector(".card-number").textContent = val;
+  }
+  }
+  document.querySelector("#name").oninput = (e)=>{
+    let val = e.target.value;
+    if(val == ""){
+      document.querySelector(".cardholder").textContent = "your name"
+    }
+    else{
+      document.querySelector(".cardholder").textContent = val;
+    }
+  }
+  document.querySelector("#month").oninput = (e)=>{
+    let val = e.target.value;
+    if(val == ""){
+      document.querySelector(".month-val").textContent = "00"
+    }
+    else{
+      document.querySelector(".month-val").textContent = val;
+    }
+  }
+  document.querySelector("#year").oninput = (e)=>{
+    let val = e.target.value;
+    if(val == ""){
+      document.querySelector(".year-val").textContent = "00"  
+    }
+    else{
+      document.querySelector(".year-val").textContent = val;
+    }
+  }
+  document.querySelector("#cvc").oninput = (e)=>{
+    let val = e.target.value;
+    if(val == ""){
+      document.querySelector(".cvc-value").textContent = "000"  
+    }
+    else{
+      document.querySelector(".cvc-value").textContent = val;
+    }
+  }
+</script>
+
+</html>
